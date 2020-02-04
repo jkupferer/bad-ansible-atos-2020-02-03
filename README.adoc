@@ -1,5 +1,7 @@
 == Overview
 
+A conflicting change
+
 This repo has be fixed a bit...
 
 Bad Ansible is a deliberately poorly constructed ansible project designed to give students a basic project to cleanup, refactor, and improve. It represents a newcomer's, aka _newbie_, approach to hacking together a functional playbook to deploy a three tier app.
