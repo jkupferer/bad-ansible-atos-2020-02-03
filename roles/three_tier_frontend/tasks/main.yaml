@@ -1,0 +1,22 @@
+---
+- name: Install software
+  yum:
+    name:
+    - haproxy
+    - python2-httpie
+    state: latest
+
+- name: configure haproxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: enable HAProxy
+  service:
+    name: haproxy
+    state: started
+
+- name: restart HAproxy
+  service:
+    name: haproxy
+    state: restarted

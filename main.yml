@@ -17,13 +17,15 @@
   hosts: all
   gather_facts: false # remove later! speeds up testing
   become: true
-
   tasks:
-  - name: enable repos
-    template:
-      src: ./open_three-tier-app.repo
-      dest: /etc/yum.repos.d/open_three-tier-app.repo
-      mode: 0644
+  - name: Process common configuration
+    include_role:
+      name: three_tier_common
+
+  - name: Configure Frontends
+    include_role:
+      name: three_tier_frontend
+    when: "'frontends' in group_names"
 
 - name: deploy haproxy
   hosts: frontends
@@ -122,7 +124,6 @@
       dest: /usr/share/tomcat/webapps/ansible/index.html
 
 - name: deploy postgres
-  hosts: apps
   gather_facts: false
   become: true
   hosts: appdbs
