@@ -15,7 +15,7 @@
 
 - name: configuration
   hosts: all
-  gather_facts: false # remove later! speeds up testing
+  gather_facts: true
   become: true
   tasks:
   - name: Process common configuration
@@ -26,32 +26,6 @@
     include_role:
       name: three_tier_frontend
     when: "'frontends' in group_names"
-
-- name: deploy haproxy
-  hosts: frontends
-  gather_facts: false # remove later! speeds up testing
-  become: true
-
-  tasks:
-  - name: http
-    package:
-      name: httpie
-      state: latest
-  - name: install HAProxy
-    yum:
-      name=haproxy state=latest
-  - name: enable HAProxy
-    service:
-      name: haproxy
-      state: started
-  - name: configure haproxy
-    template:
-      src: ./haproxy.cfg.j2
-      dest: /etc/haproxy/haproxy.cfg
-  - name: restart HAproxy
-    service:
-      name: haproxy
-      state: restarted
 
 
 - name: deploy tomcat

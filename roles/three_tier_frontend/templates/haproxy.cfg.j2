@@ -26,5 +26,5 @@ backend app-servers
     balance roundrobin
     option forwardfor
 {% for host in groups.apps %}
-    server {{ host }} {{ host }}.{{GUID}}.internal:8080 cookie app1 check
+    server {{ host }} {{ hostvars[host].ansible_facts.default_ipv4.address }}:8080 cookie {{ host }} check
 {% endfor %}
