@@ -1,0 +1,3 @@
+---
+three_tier_frontend_configure_haproxy: true
+three_tier_frontend_install_haproxy: true

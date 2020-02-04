@@ -1,22 +1,5 @@
 ---
-- name: Install software
-  yum:
-    name:
-    - haproxy
-    - python2-httpie
-    state: latest
-
-- name: configure haproxy
-  template:
-    src: haproxy.cfg.j2
-    dest: /etc/haproxy/haproxy.cfg
-
-- name: enable HAProxy
-  service:
-    name: haproxy
-    state: started
-
-- name: restart HAproxy
-  service:
-    name: haproxy
-    state: restarted
+- include_tasks: install_haproxy.yaml
+  when: three_tier_frontend_install_haproxy | bool
+- include_tasks: configure_haproxy.yaml
+  when: three_tier_frontend_configure_haproxy | bool
