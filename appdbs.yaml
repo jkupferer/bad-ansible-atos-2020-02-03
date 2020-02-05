@@ -1,0 +1,7 @@
+---
+- name: appdbs
+  hosts: appdbs
+  gather_facts: false
+  become: true
+  roles:
+  - three_tier_appdb

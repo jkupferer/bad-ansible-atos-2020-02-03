@@ -1,7 +1,7 @@
 ---
-- name: common
-  hosts: all
+- name: apps
+  hosts: apps
   gather_facts: false
   become: true
   roles:
-  - three_tier_common
+  - three_tier_app

@@ -1,0 +1,10 @@
+---
+- name: frontends
+  hosts: frontends:apps
+  gather_facts: true
+  become: true
+  tasks:
+  - name: Configure Frontends
+    include_role:
+      name: three_tier_frontend
+    when: "'frontends' in group_names"
