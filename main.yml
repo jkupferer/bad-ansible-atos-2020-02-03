@@ -27,75 +27,10 @@
       name: three_tier_frontend
     when: "'frontends' in group_names"
 
-
-- name: deploy tomcat
-  hosts: apps
-  gather_facts: false
-  become: true
-
-  tasks:
-  - name: install tomcat
-    package:
-      name: tomcat
-      state: latest
-  - name: enable tomcat at boot
-    service:
-      name: tomcat
-      enabled: yes
-
-  - name: create ansible tomcat directory
-    file:
-      path: /usr/share/tomcat/webapps/ROOT
-      state: directory
-
-  - name: copy static index.html to tomcat webapps/ansible/index.html
-    template:
-      src: index.html.j2
-      dest: /usr/share/tomcat/webapps/ROOT/index.html
-      mode: 0644
-
-  - name: start tomcat
-    service:
-      name: tomcat
-      state: started
-
-- name: index.html on app 1
-  hosts: app1
-  gather_facts: false
-  become: true
-
-  tasks:
-  - name: create /usr/share/tomcat/webapps/ansible
-    file:
-      state: directory
-      path: /usr/share/tomcat/webapps/ansible
-      owner: root
-      group: root
-      mode: u=rwx,go=rx
-
-  - name: copy static index.html to tomcat webapps/ansible/index.html
-    template:
-      src: index.html.app1
-      dest: /usr/share/tomcat/webapps/ansible/index.html
-
-- name: index.html on app 2
-  hosts: app2
-  gather_facts: false
-  become: true
-
-  tasks:
-  - name: create /usr/share/tomcat/webapps/ansible
-    file:
-      state: directory
-      path: /usr/share/tomcat/webapps/ansible
-      owner: root
-      group: root
-      mode: u=rwx,go=rx
-
-  - name: copy static index.html to tomcat webapps/ansible/index.html
-    template:
-      src: index.html.app2
-      dest: /usr/share/tomcat/webapps/ansible/index.html
+  - name: Configure App Servers
+    include_role:
+      name: three_tier_app
+    when: "'apps' in group_names"
 
 - name: deploy postgres
   gather_facts: false
@@ -133,22 +68,3 @@
     service:
       name: postgresql.service
       state: started
-
-- name: deploy apache
-  hosts: apps
-  gather_facts: false
-  become: true
-  hosts: apps
-  tasks:
-  - name: install apache
-    yum:
-      name: httpd
-      state: latest
-  - name: enable apache at boot
-    service:
-      name: httpd
-      enabled: yes
-#  - name: start apache
-#    service:
-#      name: httpd
-#      state: started

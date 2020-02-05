@@ -1,2 +1,44 @@
 ---
-# tasks file for three_tier_app
+- name: install software
+  yum:
+    name:
+    - httpd
+    - tomcat
+    state: latest
+
+- name: create ansible tomcat directory
+  file:
+    path: /usr/share/tomcat/webapps/ROOT
+    state: directory
+
+- name: copy static index.html to tomcat webapps/ROOT/index.html
+  template:
+    src: index.html.j2
+    dest: /usr/share/tomcat/webapps/ROOT/index.html
+    mode: u=rw,go=r
+
+- name: create /usr/share/tomcat/webapps/ansible
+  file:
+    state: directory
+    path: /usr/share/tomcat/webapps/ansible
+    owner: root
+    group: root
+    mode: u=rwx,go=rx
+
+- name: copy static index.html to tomcat webapps/ansible/index.html
+  template:
+    src: index.html.j2
+    dest: /usr/share/tomcat/webapps/ansible/index.html
+    mode: u=rw,go=r
+
+- name: start and enable tomcat
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
+
+- name: start and enable apache httpd at boot
+  service:
+    name: httpd
+    state: started
+    enabled: yes
