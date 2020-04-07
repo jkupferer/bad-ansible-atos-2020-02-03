@@ -4,3 +4,4 @@
     src: open_three-tier-app.repo
     dest: /etc/yum.repos.d/open_three-tier-app.repo
     mode: u=rw,go=r
+  notify: yum-clean-all

@@ -8,6 +8,9 @@
     include_role:
       name: three_tier_common
 
+  - name: Flush handlers
+    meta: flush_handlers
+
   - name: Configure Frontends
     include_role:
       name: three_tier_frontend
