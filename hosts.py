@@ -12,7 +12,8 @@ Usage: hosts.py --list
 
 def host_vars(guid, name):
     return {
-        "ansible_host": '.'.join([name, guid, 'internal'])
+        "ansible_host": '.'.join([name, guid, 'internal']),
+        "GUID": guid
     }
 
 def get_all_hosts(guid):
